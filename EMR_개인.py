@@ -1,5 +1,7 @@
 import sys
 import os
+
+import pandas
 import pandas as pd
 from PySide2 import QtUiTools, QtGui
 from PySide2.QtWidgets import QApplication, QMainWindow
@@ -25,63 +27,70 @@ class MainView(QMainWindow):
         self.resize(500,400)
         self.show()
 
+
         UI_set.BTN_find.clicked.connect(self.nameCorrespond)
         UI_set.BTN_del.clicked.connect(self.nameDiscordance)
 
     def nameCorrespond(self):
         target_columns = ['환자ID', '환자명', '주민번호']
         needData = self.patientData[target_columns]
+        nameData = needData['환자명']
 
         global a
         a = UI_set.LE_name.text()
 
-        id_list = []
+        def nameIN(self):
+            personData = needData['환자명'].str.contains(a)
+            savePersonData = needData.loc[personData]
+            strSPD = str(savePersonData)
+            UI_set.patientCombo.addItem(strSPD)      # str로 저장해야 combobox에 들어가는데, 한꺼번에 표시됨. 열 별로 나누는 방법?
 
-        personData = needData['환자명'].str.contains(a)
-        savePersonData = needData[personData]
-        print(savePersonData)
+        def nameOUT(self):
+            allPatientData = needData.loc[:]
+            strAPD = str(allPatientData)
+            UI_set.patientCombo.addItem(strAPD)
 
-        for a in range(0, len(personData)):
-
-            if a in personData and a not in id_list:
-                id_list.append(a)
-                UI_set.L_name.setText(str(a)+" 환자가 존재합니다.")     #str(a)로 하지 않으면 에러 발생, str(a)로 하면 숫자로 출력됨.
-                comboboxPersonData = "/".join(savePersonData)       #"환자ID/환자명/주민번호"가 14개 출력됨. 14개는 환자데이터 개수인듯
-                UI_set.patientCombo.addItem(comboboxPersonData)
-            elif a in personData and a in id_list:
+        for idx in range(0, 1):         # range(0, len(needData))로 하면, 4번(환자데이터개수) 반복돼서 4개의 똑같은 데이터 출력됨.
+            if a in str(nameData):
+                nameIN(self)
+            elif a not in str(nameData):
+                nameOUT(self)
+                UI_set.L_name.setText(a + " 환자가 존재하지 않음.")           # 연속으로 2번 실행 시, 왜 이전의 데이터가 같이 표시?
                 continue
-            else:
-                UI_set.L_name.setText(a + " 환자가 존재하지 않습니다.")
 
     def nameDiscordance(self):
         target_columns = ['환자ID', '환자명', '주민번호']
         needData = self.patientData[target_columns]
+        nameData = needData['환자명']
 
+        global a
         a = UI_set.LE_name.text()
 
-        id_list = []
+        def nameIN(self):
+            personData = needData['환자명'].str.contains(a)
+            savePersonData = needData.loc[personData]
+            strSPD = str(savePersonData)
+            UI_set.patientCombo.addItem(strSPD)      # str로 저장해야 combobox에 들어가는데, 한꺼번에 표시됨. 열 별로 나누는 방법?
 
-        personData = needData['환자명'].str.contains(a)
-        savePersonData = needData[personData]
-        print(savePersonData)
+        def nameOUT(self):
+            allPatientData = needData.loc[:]
+            strAPD = str(allPatientData)
+            UI_set.patientCombo.addItem(strAPD)
 
-        for a in range(0, len(personData)):
+        def patientDelete(self):
+            allPatientData = needData.loc[:]
+            # test_df = test_df[~test_df['contents'].str.contains('w')]
+            modifiedData = allPatientData[~allPatientData['환자명'].str.contains(a)]
+            strMD = str(modifiedData)
+            UI_set.patientCombo.addItem(strMD)
 
-            if a in personData and a not in id_list:
-                id_list.append(a)
-                UI_set.L_name.setText(str(a) + " 환자를 삭제합니다.")
-                self.patientDelete
-            elif a in personData and a in id_list:
+        for idx in range(0, 1):         # range(0, len(needData))로 하면, 4번(환자데이터개수) 반복돼서 4개의 똑같은 데이터 출력됨.
+            if a in str(nameData):
+                patientDelete(self)
+            elif a not in str(nameData):
+                nameOUT(self)
+                UI_set.L_name.setText(a + " 환자가 존재하지 않음.")           # 연속으로 2번 실행 시, 왜 이전의 데이터가 같이 표시?
                 continue
-            else:
-                UI_set.L_name.setText(a + " 환자가 존재하지 않습니다.")
-
-    def patientDelete(self):
-        target_columns = ['환자ID', '환자명', '주민번호']
-        needData = self.patientData[target_columns]
-
-        dataframe = target_columns[target_columns["환자명"] != a]
-        UI_set.patientCombo.addItem(dataframe)
 
 
 #파일 경로

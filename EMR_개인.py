@@ -40,12 +40,14 @@ class MainView(QMainWindow):
         a = UI_set.LE_name.text()
 
         def nameIN(self):
+            UI_set.patientCombo.clear()
             personData = needData['환자명'].str.contains(a)
             savePersonData = needData.loc[personData]
             strSPD = str(savePersonData)
             UI_set.patientCombo.addItem(strSPD)      # str로 저장해야 combobox에 들어가는데, 한꺼번에 표시됨. 열 별로 나누는 방법?
 
         def nameOUT(self):
+            UI_set.patientCombo.clear()
             allPatientData = needData.loc[:]
             strAPD = str(allPatientData)
             UI_set.patientCombo.addItem(strAPD)
@@ -53,10 +55,12 @@ class MainView(QMainWindow):
         for idx in range(0, 1):         # range(0, len(needData))로 하면, 4번(환자데이터개수) 반복돼서 4개의 똑같은 데이터 출력됨.
             if a in str(nameData):
                 nameIN(self)
+                UI_set.L_name.setText(a + " 환자가 존재합니다.")
             elif a not in str(nameData):
                 nameOUT(self)
-                UI_set.L_name.setText(a + " 환자가 존재하지 않음.")           # 연속으로 2번 실행 시, 왜 이전의 데이터가 같이 표시?
+                UI_set.L_name.setText(a + " 환자가 존재하지 않습니다.")
                 continue
+
 
     def nameDiscordance(self):
         target_columns = ['환자ID', '환자명', '주민번호']
@@ -67,19 +71,21 @@ class MainView(QMainWindow):
         a = UI_set.LE_name.text()
 
         def nameIN(self):
+            UI_set.patientCombo.clear()
             personData = needData['환자명'].str.contains(a)
             savePersonData = needData.loc[personData]
             strSPD = str(savePersonData)
             UI_set.patientCombo.addItem(strSPD)      # str로 저장해야 combobox에 들어가는데, 한꺼번에 표시됨. 열 별로 나누는 방법?
 
         def nameOUT(self):
+            UI_set.patientCombo.clear()
             allPatientData = needData.loc[:]
             strAPD = str(allPatientData)
             UI_set.patientCombo.addItem(strAPD)
 
         def patientDelete(self):
+            UI_set.patientCombo.clear()
             allPatientData = needData.loc[:]
-            # test_df = test_df[~test_df['contents'].str.contains('w')]
             modifiedData = allPatientData[~allPatientData['환자명'].str.contains(a)]
             strMD = str(modifiedData)
             UI_set.patientCombo.addItem(strMD)
@@ -87,9 +93,10 @@ class MainView(QMainWindow):
         for idx in range(0, 1):         # range(0, len(needData))로 하면, 4번(환자데이터개수) 반복돼서 4개의 똑같은 데이터 출력됨.
             if a in str(nameData):
                 patientDelete(self)
+                UI_set.L_name.setText(a + " 환자를 삭제합니다.")
             elif a not in str(nameData):
                 nameOUT(self)
-                UI_set.L_name.setText(a + " 환자가 존재하지 않음.")           # 연속으로 2번 실행 시, 왜 이전의 데이터가 같이 표시?
+                UI_set.L_name.setText(a + " 환자가 존재하지 않습니다.")
                 continue
 
 

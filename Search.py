@@ -62,7 +62,7 @@ class Fileread(QWidget):
     def revise_add(self):
 
         
-        Fr = open('patientData.csv','r', encoding='UTF8')
+        Fr = open('patientData1.csv','r', encoding='UTF8')
         ReadF = csv.reader(Fr)
         
         
@@ -71,59 +71,65 @@ class Fileread(QWidget):
         
         row = 0    
         column = 0
+        list = 0
         
         for line in ReadF:
             if(keyword==line[1]):
-                column += 1
+                if(list!=line[0]):
+                    column += 1
+                list = line[0]
+                
                 
     
         UI_set.resulttable.setRowCount(column)
         
         Fr.close()
         
-        Fr = open('patientData.csv','r', encoding='UTF8')
+        Fr = open('patientData1.csv','r', encoding='UTF8')
         ReadF = csv.reader(Fr)
         
         keyword = UI_set.revise_add.text()
 
-
+        list2 = 0
     
         for line in ReadF:
             if(keyword==line[1]):
-                item = Fileread.cell(self,line[0])
-                item.setFlags(QtCore.Qt.ItemIsEnabled)
-                search1 = Fileread.cell(self,line[2])
-                search1.setFlags(QtCore.Qt.ItemIsEnabled)
-                item1 = Fileread.cell(self,line[1])
-                item1.setFlags(QtCore.Qt.ItemIsEnabled)
-                item3 = Fileread.cell(self,line[3])
-                item3.setFlags(QtCore.Qt.ItemIsEnabled)
-                item4 = Fileread.cell(self,line[4])
-                item4.setFlags(QtCore.Qt.ItemIsEnabled)
-                item5 = Fileread.cell(self,line[5])
-                item5.setFlags(QtCore.Qt.ItemIsEnabled)
-                item6 = Fileread.cell(self,line[6])
-                item6.setFlags(QtCore.Qt.ItemIsEnabled)
-                item7 = Fileread.cell(self,line[7])
-                item7.setFlags(QtCore.Qt.ItemIsEnabled)
-                item8 = Fileread.cell(self,line[8])
-                item8.setFlags(QtCore.Qt.ItemIsEnabled)
-                
-
-                
-                UI_set.resulttable.setItem(row, 0, QTableWidgetItem(line[0]))
-                UI_set.resulttable.setItem(row, 0, QTableWidgetItem(item))
-
-                UI_set.resulttable.setItem(row, 1, QTableWidgetItem(item1))
-                UI_set.resulttable.setItem(row, 2, QTableWidgetItem(search1))
-                UI_set.resulttable.setItem(row, 3, QTableWidgetItem(item3))
-                UI_set.resulttable.setItem(row, 4, QTableWidgetItem(item4))
-                UI_set.resulttable.setItem(row, 5, QTableWidgetItem(item5))
-                UI_set.resulttable.setItem(row, 6, QTableWidgetItem(item6))
-                UI_set.resulttable.setItem(row, 7, QTableWidgetItem(item7))
-                UI_set.resulttable.setItem(row, 8, QTableWidgetItem(item8))
-                
-                row += 1
+                if(list2!=line[0]):
+                    item = Fileread.cell(self,line[0])
+                    item.setFlags(QtCore.Qt.ItemIsEnabled)
+                    search1 = Fileread.cell(self,line[2])
+                    search1.setFlags(QtCore.Qt.ItemIsEnabled)
+                    item1 = Fileread.cell(self,line[1])
+                    item1.setFlags(QtCore.Qt.ItemIsEnabled)
+                    item3 = Fileread.cell(self,line[3])
+                    item3.setFlags(QtCore.Qt.ItemIsEnabled)
+                    item4 = Fileread.cell(self,line[4])
+                    item4.setFlags(QtCore.Qt.ItemIsEnabled)
+                    item5 = Fileread.cell(self,line[5])
+                    item5.setFlags(QtCore.Qt.ItemIsEnabled)
+                    item6 = Fileread.cell(self,line[6])
+                    item6.setFlags(QtCore.Qt.ItemIsEnabled)
+                    item7 = Fileread.cell(self,line[7])
+                    item7.setFlags(QtCore.Qt.ItemIsEnabled)
+                    item8 = Fileread.cell(self,line[8])
+                    item8.setFlags(QtCore.Qt.ItemIsEnabled)
+                    
+    
+                    
+                    UI_set.resulttable.setItem(row, 0, QTableWidgetItem(line[0]))
+                    UI_set.resulttable.setItem(row, 0, QTableWidgetItem(item))
+    
+                    UI_set.resulttable.setItem(row, 1, QTableWidgetItem(item1))
+                    UI_set.resulttable.setItem(row, 2, QTableWidgetItem(search1))
+                    UI_set.resulttable.setItem(row, 3, QTableWidgetItem(item3))
+                    UI_set.resulttable.setItem(row, 4, QTableWidgetItem(item4))
+                    UI_set.resulttable.setItem(row, 5, QTableWidgetItem(item5))
+                    UI_set.resulttable.setItem(row, 6, QTableWidgetItem(item6))
+                    UI_set.resulttable.setItem(row, 7, QTableWidgetItem(item7))
+                    UI_set.resulttable.setItem(row, 8, QTableWidgetItem(item8))
+                    
+                    row += 1
+                list2 = line[0]
                 
                 
         UI_set.resulttable.doubleClicked.connect(Fileread.treeMedia_doubleClicked)
